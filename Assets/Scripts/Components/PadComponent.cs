@@ -1,4 +1,6 @@
 using Entitas;
 
 [Game]
-public class PadComponent : IComponent { }
+public class PadComponent : IComponent
+{
+}

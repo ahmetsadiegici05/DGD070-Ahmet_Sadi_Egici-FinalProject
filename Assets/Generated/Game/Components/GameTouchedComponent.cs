@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly WinComponent winComponent = new WinComponent();
+    static readonly TouchedComponent touchedComponent = new TouchedComponent();
 
-    public bool isWin {
-        get { return HasComponent(GameComponentsLookup.Win); }
+    public bool isTouched {
+        get { return HasComponent(GameComponentsLookup.Touched); }
         set {
-            if (value != isWin) {
-                var index = GameComponentsLookup.Win;
+            if (value != isTouched) {
+                var index = GameComponentsLookup.Touched;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : winComponent;
+                            : touchedComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherWin;
+    static Entitas.IMatcher<GameEntity> _matcherTouched;
 
-    public static Entitas.IMatcher<GameEntity> Win {
+    public static Entitas.IMatcher<GameEntity> Touched {
         get {
-            if (_matcherWin == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Win);
+            if (_matcherTouched == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Touched);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherWin = matcher;
+                _matcherTouched = matcher;
             }
 
-            return _matcherWin;
+            return _matcherTouched;
         }
     }
 }

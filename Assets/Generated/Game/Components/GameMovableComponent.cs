@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly PadTouchedComponent padTouchedComponent = new PadTouchedComponent();
+    static readonly MovableComponent movableComponent = new MovableComponent();
 
-    public bool isPadTouched {
-        get { return HasComponent(GameComponentsLookup.PadTouched); }
+    public bool isMovable {
+        get { return HasComponent(GameComponentsLookup.Movable); }
         set {
-            if (value != isPadTouched) {
-                var index = GameComponentsLookup.PadTouched;
+            if (value != isMovable) {
+                var index = GameComponentsLookup.Movable;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : padTouchedComponent;
+                            : movableComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherPadTouched;
+    static Entitas.IMatcher<GameEntity> _matcherMovable;
 
-    public static Entitas.IMatcher<GameEntity> PadTouched {
+    public static Entitas.IMatcher<GameEntity> Movable {
         get {
-            if (_matcherPadTouched == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.PadTouched);
+            if (_matcherMovable == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Movable);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherPadTouched = matcher;
+                _matcherMovable = matcher;
             }
 
-            return _matcherPadTouched;
+            return _matcherMovable;
         }
     }
 }
