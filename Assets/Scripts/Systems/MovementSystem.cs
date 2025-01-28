@@ -3,32 +3,35 @@ using UnityEngine;
 
 public class MovementSystem : IExecuteSystem
 {
+    private readonly IGroup<InputEntity> _inputGroup;
     private readonly IGroup<GameEntity> _movableGroup;
-    private readonly InputContext _inputContext;
 
     public MovementSystem(Contexts contexts)
     {
-        _movableGroup = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Movable, GameMatcher.Position));
-        _inputContext = contexts.ýnput;
+        _inputGroup = contexts.ýnput.GetGroup(InputMatcher.Input);
+        _movableGroup = contexts.game.GetGroup(GameMatcher.Movable);
     }
 
     public void Execute()
     {
-        var inputEntity = _inputContext.GetGroup(InputMatcher.Input).GetSingleEntity();
-
-        if (inputEntity != null)
+        var inputEntity = _inputGroup.GetSingleEntity();
+        if (inputEntity == null || !inputEntity.hasInput)
         {
-            float horizontal = inputEntity.ýnput.horizontal;
-            float vertical = inputEntity.ýnput.vertical;
+            return; 
+        }
 
-            foreach (var entity in _movableGroup.GetEntities())
-            {
-                var position = entity.position.value;
-                position.x += horizontal * Time.deltaTime;
-                position.y += vertical * Time.deltaTime;
+        var input = inputEntity.ýnput;
 
-                entity.ReplacePosition(position);
-            }
+        foreach (var e in _movableGroup.GetEntities())
+        {
+            var position = e.position.value;
+
+            
+            position.x += input.horizontal * Time.deltaTime * 5f; 
+            position.y += input.vertical * Time.deltaTime * 5f;
+
+            e.ReplacePosition(position);
+            Debug.Log($"Player position updated to: {position}"); 
         }
     }
 }

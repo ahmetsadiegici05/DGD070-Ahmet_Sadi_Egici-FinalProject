@@ -15,7 +15,16 @@ public class InputSystem : IExecuteSystem
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-        var inputEntity = _inputContext.CreateEntity();
-        inputEntity.AddInput(horizontal, vertical); 
+        
+        var inputEntity = _inputContext.GetGroup(InputMatcher.Input).GetSingleEntity();
+        if (inputEntity == null)
+        {
+            inputEntity = _inputContext.CreateEntity();
+            inputEntity.AddInput(horizontal, vertical);
+        }
+        else
+        {
+            inputEntity.ReplaceInput(horizontal, vertical);
+        }
     }
 }
