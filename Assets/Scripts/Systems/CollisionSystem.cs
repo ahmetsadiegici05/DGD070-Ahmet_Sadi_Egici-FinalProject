@@ -13,7 +13,12 @@ public class CollisionSystem : IExecuteSystem
     public void Execute()
     {
         var player = _contexts.game.GetGroup(GameMatcher.Player).GetSingleEntity();
+
+       
+        if (player == null) return;
+
         var pads = _contexts.game.GetGroup(GameMatcher.Pad).GetEntities();
+        int touchedPads = 0; 
 
         foreach (var pad in pads)
         {
@@ -22,7 +27,7 @@ public class CollisionSystem : IExecuteSystem
                 if (!pad.isTouched)
                 {
                     pad.isTouched = true;
-                    Debug.Log("Pad Touched!"); 
+                    Debug.Log("Pad Touched!");
 
                     
                     if (pad.hasView)
@@ -30,11 +35,23 @@ public class CollisionSystem : IExecuteSystem
                         var spriteRenderer = pad.view.gameObject.GetComponent<SpriteRenderer>();
                         if (spriteRenderer != null)
                         {
-                            spriteRenderer.color = Color.green; 
+                            spriteRenderer.color = Color.green;
                         }
                     }
                 }
             }
+
+            if (pad.isTouched) touchedPads++; 
+        }
+
+        
+        if (touchedPads == pads.Length)
+        {
+            Debug.Log(" WINRAR ÝS YOU ");
+
+            
+            player.Destroy();
         }
     }
 }
+

@@ -27,4 +27,6 @@ public sealed partial class GameContext : Entitas.Context<GameEntity> {
             () => new GameEntity()
         ) {
     }
+
+    public bool isGameWon { get; internal set; }
 }

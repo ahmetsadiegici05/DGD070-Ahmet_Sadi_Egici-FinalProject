@@ -5,7 +5,6 @@ using UnityEngine;
 public class WinConditionSystem : IExecuteSystem
 {
     readonly Contexts _contexts;
-    bool gameWon = false; 
 
     public WinConditionSystem(Contexts contexts)
     {
@@ -15,22 +14,35 @@ public class WinConditionSystem : IExecuteSystem
     public void Execute()
     {
         var pads = _contexts.game.GetGroup(GameMatcher.Pad);
-        if (!gameWon && pads.GetEntities().All(pad => pad.isTouched))
+        if (pads.GetEntities().All(pad => pad.isTouched))
         {
-            gameWon = true;
-            Debug.Log(" Oyun Tamamlandý! ");
+            if (!_contexts.game.isGameWon)
+            {
+                _contexts.game.isGameWon = true; 
 
-            
-            var winText = new GameObject("WinText");
-            var textMesh = winText.AddComponent<TextMesh>();
-            textMesh.text = " WINRAR IS YOU! ";
-            textMesh.fontSize = 15;
-            textMesh.color = Color.yellow;
-            textMesh.alignment = TextAlignment.Center;
-            textMesh.anchor = TextAnchor.MiddleCenter;
+                Debug.Log(" Oyun Tamamlandý! ");
 
-            
-            winText.transform.position = new Vector3(0, 0, 0);
+                
+                var winText = new GameObject("WinText");
+                var textMesh = winText.AddComponent<TextMesh>();
+                textMesh.text = " WINRAR IS YOU! ";
+                textMesh.fontSize = 15;
+                textMesh.color = Color.yellow;
+                textMesh.alignment = TextAlignment.Center;
+                textMesh.anchor = TextAnchor.MiddleCenter;
+                winText.transform.position = new Vector3(0, 0, -1);
+
+                
+                var player = _contexts.game.GetGroup(GameMatcher.Player).GetSingleEntity();
+                if (player != null)
+                {
+                    if (player.hasView) 
+                    {
+                        GameObject.Destroy(player.view.gameObject);
+                    }
+                    player.Destroy();
+                }
+            }
         }
     }
 }
