@@ -31,7 +31,7 @@ public class MovementSystem : IExecuteSystem
             position.y += input.vertical * Time.deltaTime * 5f;
 
             e.ReplacePosition(position);
-            Debug.Log($"Player position updated to: {position}"); 
+            
         }
     }
 }

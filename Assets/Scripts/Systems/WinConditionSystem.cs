@@ -13,10 +13,13 @@ public class WinConditionSystem : IExecuteSystem
 
     public void Execute()
     {
-        var pads = _contexts.game.GetGroup(GameMatcher.Pad);
-        if (pads.GetEntities().All(pad => pad.isTouched))
+        
+        var pads = _contexts.game.GetGroup(GameMatcher.Pad).GetEntities();
+
+        
+        if (pads.Length > 0 && pads.All(pad => pad.isTouched))
         {
-            Debug.Log("Oyun Tamamlandý!");
+            Debug.Log(" Oyun Tamamlandý! ");
         }
     }
 }
