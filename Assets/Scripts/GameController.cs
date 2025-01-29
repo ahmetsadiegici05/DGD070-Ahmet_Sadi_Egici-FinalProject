@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     {
         var contexts = Contexts.sharedInstance;
 
-      
+
         _systems = new Feature("Game Systems")
             .Add(new InputSystem(contexts))
             .Add(new MovementSystem(contexts))
@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
 
         _systems.Initialize();
 
-        
+
         CreatePlayer(contexts);
         CreatePads(contexts);
     }
@@ -34,11 +34,11 @@ public class GameController : MonoBehaviour
     void CreatePlayer(Contexts contexts)
     {
         var player = contexts.game.CreateEntity();
-        player.AddPosition(new Vector2(0, 0)); 
+        player.AddPosition(new Vector2(0, 0));
         player.isPlayer = true;
         player.isMovable = true;
 
-        GameObject playerGO = GameObject.CreatePrimitive(PrimitiveType.Cube); 
+        GameObject playerGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
         playerGO.transform.position = new Vector3(0, 0, 0);
         player.AddView(playerGO);
     }
@@ -58,9 +58,9 @@ public class GameController : MonoBehaviour
             pad.AddPosition(pos);
             pad.isPad = true;
 
-            GameObject padGO = GameObject.CreatePrimitive(PrimitiveType.Sphere); 
+            GameObject padGO = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             padGO.transform.position = new Vector3(pos.x, pos.y, 0);
-            pad.AddView(padGO); 
+            pad.AddView(padGO);
         }
     }
 }

@@ -12,21 +12,28 @@ public class CollisionSystem : IExecuteSystem
 
     public void Execute()
     {
-        
         var player = _contexts.game.GetGroup(GameMatcher.Player).GetSingleEntity();
-        if (player == null) return; 
-
-        
         var pads = _contexts.game.GetGroup(GameMatcher.Pad).GetEntities();
 
         foreach (var pad in pads)
         {
-            
             if (Vector2.Distance(player.position.value, pad.position.value) < 0.5f)
             {
-                
-                pad.isTouched = true;
-                Debug.Log($"Pad touched at position: {pad.position.value}");
+                if (!pad.isTouched)
+                {
+                    pad.isTouched = true;
+                    Debug.Log("Pad Touched!"); 
+
+                    
+                    if (pad.hasView)
+                    {
+                        var spriteRenderer = pad.view.gameObject.GetComponent<SpriteRenderer>();
+                        if (spriteRenderer != null)
+                        {
+                            spriteRenderer.color = Color.green; 
+                        }
+                    }
+                }
             }
         }
     }
