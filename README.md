@@ -1,0 +1,4 @@
+
+Here’s your text translated into English:
+
+Note: I attempted to implement features where the pads change color when touched and a win message appears on the screen when all four pads are touched. However, due to unexpected issues affecting other systems, I wasn’t able to fully implement these features. Instead, I have added debug messages to show that the pad interactions and the win condition when all four pads are touched are working. Thank you for your understanding.
