@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
         var player = contexts.game.CreateEntity();
         player.AddPosition(new Vector2(0, 0)); 
         player.isPlayer = true;
+        player.isMovable = true;
     }
 
     void CreatePads(Contexts contexts)
